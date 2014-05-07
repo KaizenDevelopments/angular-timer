@@ -58,6 +58,14 @@ angular.module('timer', [])
           $scope.countdown = countdown;
         });
 
+        $scope.$on('timer-add-millis', function (e, millis) {
+          $scope.addMillis(millis);
+        });
+
+        $scope.$on('timer-remove-millis', function (e, millis) {
+          $scope.removeMillis(millis);
+        });
+
         function resetTimeout() {
           if ($scope.timeoutId) {
             clearTimeout($scope.timeoutId);
@@ -98,6 +106,18 @@ angular.module('timer', [])
           $scope.isRunning = false;
         };
 
+        $scope.addMillis = $element[0].addMillis = function (millis) {
+          var t = $scope.startTime;
+          t.setMilliseconds(t.getMilliseconds() - millis);
+          $scope.startTime = t;
+        };
+
+        $scope.removeMillis = $element[0].removeMillis = function (millis) {
+          var t = $scope.startTime;
+          t.setMilliseconds(t.getMilliseconds() + millis);
+          $scope.startTime = t;
+        };
+
         $element.bind('$destroy', function () {
           resetTimeout();
           $scope.isRunning = false;
@@ -127,7 +147,6 @@ angular.module('timer', [])
               $scope.hours = Math.floor($scope.millis / 3600000);
               $scope.days = 0;
             }
-            
             // plural - singular unit decision
             $scope.secondsS = $scope.seconds==1 ? '' : 's';
             $scope.minutesS = $scope.minutes==1 ? '' : 's';

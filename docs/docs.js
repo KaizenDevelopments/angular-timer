@@ -6,6 +6,13 @@ function stopTimer(sectionId) {
   document.getElementById(sectionId).getElementsByTagName('timer')[0].stop();
 }
 
+function addMillis(sectionId, millis) {
+  document.getElementById(sectionId).getElementsByTagName('timer')[0].addMillis(millis);
+}
+
+function removeMillis(sectionId, millis) {
+  document.getElementById(sectionId).getElementsByTagName('timer')[0].removeMillis(millis);
+}
 
 function addCDSeconds(sectionId, extraTime) {
   document.getElementById(sectionId).getElementsByTagName('timer')[0].addCDSeconds(extraTime);

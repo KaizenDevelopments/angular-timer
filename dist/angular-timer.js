@@ -1,5 +1,5 @@
 /**
- * angular-timer - v1.1.0 - 2014-04-23 5:44 AM
+ * angular-timer - v1.1.0 - 2014-05-07 5:05 PM
  * https://github.com/siddii/angular-timer
  *
  * Copyright (c) 2014 Siddique Hameed
@@ -65,6 +65,14 @@ angular.module('timer', [])
           $scope.countdown = countdown;
         });
 
+        $scope.$on('timer-add-millis', function (e, millis) {
+          $scope.addMillis(millis);
+        });
+
+        $scope.$on('timer-remove-millis', function (e, millis) {
+          $scope.removeMillis(millis);
+        });
+
         function resetTimeout() {
           if ($scope.timeoutId) {
             clearTimeout($scope.timeoutId);
@@ -105,6 +113,18 @@ angular.module('timer', [])
           $scope.isRunning = false;
         };
 
+        $scope.addMillis = $element[0].addMillis = function (millis) {
+          var t = $scope.startTime;
+          t.setMilliseconds(t.getMilliseconds() - millis);
+          $scope.startTime = t;
+        };
+
+        $scope.removeMillis = $element[0].removeMillis = function (millis) {
+          var t = $scope.startTime;
+          t.setMilliseconds(t.getMilliseconds() + millis);
+          $scope.startTime = t;
+        };
+
         $element.bind('$destroy', function () {
           resetTimeout();
           $scope.isRunning = false;
@@ -134,7 +154,6 @@ angular.module('timer', [])
               $scope.hours = Math.floor($scope.millis / 3600000);
               $scope.days = 0;
             }
-            
             // plural - singular unit decision
             $scope.secondsS = $scope.seconds==1 ? '' : 's';
             $scope.minutesS = $scope.minutes==1 ? '' : 's';
@@ -163,6 +182,16 @@ angular.module('timer', [])
             $timeout(function (){
               $scope.addCDSeconds(extraSeconds);
             });
+          });
+
+          $scope.$on('timer-set-countdown-seconds', function(e, countdownSeconds) {
+            if (!$scope.isRunning) {
+              $scope.clear();
+            }
+
+            $scope.countdown = countdownSeconds;
+            $scope.millis = countdownSeconds * 1000;
+            calculateTimeUnits();
           });
         } else {
           $scope.millis = 0;
