@@ -1,4 +1,11 @@
 /**
+ * angular-timer - v1.1.0 - 2014-05-26 4:20 PM
+ * https://github.com/siddii/angular-timer
+ *
+ * Copyright (c) 2014 Siddique Hameed
+ * Licensed MIT <https://github.com/siddii/angular-timer/blob/master/LICENSE.txt>
+ */
+/**
  * angular-timer - v1.1.0 - 2014-05-07 5:05 PM
  * https://github.com/siddii/angular-timer
  *
@@ -65,12 +72,8 @@ angular.module('timer', [])
           $scope.countdown = countdown;
         });
 
-        $scope.$on('timer-add-millis', function (e, millis) {
-          $scope.addMillis(millis);
-        });
-
-        $scope.$on('timer-remove-millis', function (e, millis) {
-          $scope.removeMillis(millis);
+        $scope.$on('timer-set-date', function (e, newDate) {
+          $scope.setDate(newDate);
         });
 
         function resetTimeout() {
@@ -113,16 +116,9 @@ angular.module('timer', [])
           $scope.isRunning = false;
         };
 
-        $scope.addMillis = $element[0].addMillis = function (millis) {
-          var t = $scope.startTime;
-          t.setMilliseconds(t.getMilliseconds() - millis);
-          $scope.startTime = t;
-        };
-
-        $scope.removeMillis = $element[0].removeMillis = function (millis) {
-          var t = $scope.startTime;
-          t.setMilliseconds(t.getMilliseconds() + millis);
-          $scope.startTime = t;
+        $scope.setDate = $element[0].setDate = function (newDate) {
+          $scope.startTime = newDate;
+          tick();
         };
 
         $element.bind('$destroy', function () {
