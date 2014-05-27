@@ -110,8 +110,10 @@ angular.module('timer', [])
         };
 
         $scope.setDate = $element[0].setDate = function (newDate) {
+          $scope.stop();
           $scope.startTime = newDate;
           tick();
+          $scope.isRunning = true;
         };
 
         $element.bind('$destroy', function () {

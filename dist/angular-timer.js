@@ -1,5 +1,5 @@
 /**
- * angular-timer - v1.1.0 - 2014-05-26 4:20 PM
+ * angular-timer - v1.1.0 - 2014-05-27 3:37 PM
  * https://github.com/siddii/angular-timer
  *
  * Copyright (c) 2014 Siddique Hameed
@@ -117,8 +117,10 @@ angular.module('timer', [])
         };
 
         $scope.setDate = $element[0].setDate = function (newDate) {
+          $scope.stop();
           $scope.startTime = newDate;
           tick();
+          $scope.isRunning = true;
         };
 
         $element.bind('$destroy', function () {
